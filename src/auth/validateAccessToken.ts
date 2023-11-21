@@ -13,7 +13,7 @@ export const validateAccessToken = (req: Request, res: Response, next: NextFunct
   jwt.verify(token, jwt_secret, (err, user) => {
     if (err) return res.sendStatus(403);
     // @ts-ignore
-    req.user = user;
+    req.user = user.id;
     next();
   });
 }

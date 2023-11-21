@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/20</span>
+                <span class='fraction'>15/20</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">72.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/18</span>
+                <span class='fraction'>13/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -100,26 +100,26 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -131,27 +131,27 @@
 import { validateRefreshToken, generateAccessToken } from '../../auth'
 import RefreshToken from '../../models/refreshToken'
 &nbsp;
-export const refreshAccessToken = <span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const { refresh_token } = <span class="cstat-no" title="statement not covered" >req.body</span>
+export const refreshAccessToken = async (req: Request, res: Response) =&gt; {
+  try {
+    const { refresh_token } = req.body
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!refresh_token) {</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!refresh_token) {
 <span class="cstat-no" title="statement not covered" >      return res.status(400).json({ message: 'Missing refresh token' })</span>
     }
 &nbsp;
-    const refreshToken = <span class="cstat-no" title="statement not covered" >await RefreshToken.findOne({ token: refresh_token })</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!refreshToken) {</span>
+    const refreshToken = await RefreshToken.findOne({ token: refresh_token })
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!refreshToken) {
 <span class="cstat-no" title="statement not covered" >      return res.status(401).json({ message: 'Invalid refresh token' })</span>
     }
 &nbsp;
-    const user_id = <span class="cstat-no" title="statement not covered" >await validateRefreshToken(refresh_token)</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user_id) {</span>
+    const user_id = await validateRefreshToken(refresh_token)
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user_id) {
 <span class="cstat-no" title="statement not covered" >      return res.status(401).json({ message: 'Invalid refresh token' })</span>
     }
 &nbsp;
-    const access_token = <span class="cstat-no" title="statement not covered" >await generateAccessToken(user_id)</span>
+    const access_token = await generateAccessToken(user_id)
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return res.status(200).json({ access_token })</span>
+    return res.status(200).json({ access_token })
 &nbsp;
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    console.error(error)</span>
@@ -166,7 +166,7 @@ export default refreshAccessToken</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-21T10:28:04.378Z
+                at 2023-11-21T10:35:10.236Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

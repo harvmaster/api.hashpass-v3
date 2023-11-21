@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import RefreshToken from '../models/refreshToken'
 import config from '../../config'
 
-const jwt_refresh_secret = config.jwt_refresh_secret
+const jwt_refresh_secret = config.jwt_secret
 
 const validateRefreshToken = async (token: string): Promise<string | null> => {
   try {

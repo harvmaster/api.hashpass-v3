@@ -57,5 +57,16 @@ describe('User', () => {
     })
   })
 
+  describe('POST /user/refresh', () => {
+    it('should refresh a user', async () => {
+      const response = await axios.post('http://localhost:3000/user/refresh', {
+        refresh_token
+      })
+      console.log(response.data)
+      access_token = response.data.access_token
+      expect(response.status).toBe(200)
+    })
+  })
+
 
 })

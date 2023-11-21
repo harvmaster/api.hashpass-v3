@@ -9,6 +9,7 @@ interface AuthenticatedRequest extends Request {
 export const getUser = async (req: AuthenticatedRequest, res: Response) => {
     try {
         const userId = req.user
+        console.log(userId)
         if (!userId) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
