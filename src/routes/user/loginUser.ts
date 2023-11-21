@@ -20,7 +20,7 @@ export const loginUser = async (req: Request, res: Response) => {
     
     return res.status(200).json({
       user: user.toAuthJSON(),
-      refresh_token,
+      refresh_token: refresh_token.toAuthJSON(),
       access_token
     })
 

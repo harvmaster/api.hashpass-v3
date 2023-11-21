@@ -66,7 +66,8 @@ UserSchema.methods.setPassword = async function (password: string): Promise<void
 }
 
 UserSchema.methods.toAuthJSON = function (): Omit<IUser & { _id: Types.ObjectId }, 'password' | 'salt'> {
-  const { password, salt, ...userWithoutPassword } = this;
+  const { password, salt, _id, __v, ...userWithoutPassword } = this.toObject();
+  userWithoutPassword.id = _id;
   return userWithoutPassword;
 }
 

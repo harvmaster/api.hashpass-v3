@@ -18,7 +18,7 @@ export const createUser = async (req: Request, res: Response) => {
   }
 
   let user = new User({ username })
-  user.setPassword(password)
+  await user.setPassword(password)
 
   await user.save()
 
@@ -27,7 +27,7 @@ export const createUser = async (req: Request, res: Response) => {
 
   return res.status(201).json({ 
     user: user.toAuthJSON(), 
-    refresh_token, 
+    refresh_token: refresh_token.toAuthJSON(), 
     access_token 
   })
 }

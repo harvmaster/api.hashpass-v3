@@ -1,6 +1,5 @@
 'use strict'
 
-import config from '../../config'
 import mongoose from 'mongoose'
 
 mongoose.connection.on('connected', () => {
@@ -14,8 +13,9 @@ mongoose.connection.on('error', (err) => {
 
 mongoose.set('debug', false)
 
-const connect = async () => {
-  const connection = mongoose.connect(config.mongoDB)
+const connect = async (url: string) => {
+  console.log(url)
+  const connection = mongoose.connect(url)
 
   // mongoose.set('useCreateIndex', true)
 

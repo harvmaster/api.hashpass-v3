@@ -4,22 +4,22 @@ import config from '../../../config';
 
 const jwt_refresh_secret = config.jwt_refresh_secret;
 
-interface IRefreshToken {
+export interface IRefreshToken {
   token: string;
   user: mongoose.Schema.Types.ObjectId;
   revoked: boolean;
   create_date: Date;
 }
 
-interface IRefreshTokenDocument extends IRefreshToken, Document {
+export interface IRefreshTokenDocument extends IRefreshToken, Document {
   toAuthJSON: () => IRefreshToken;
 }
 
-interface IRefreshTokenModel extends Model<IRefreshTokenDocument> {
+export interface IRefreshTokenModel extends Model<IRefreshTokenDocument> {
   generateRefreshToken: (user: mongoose.Schema.Types.ObjectId) => Promise<IRefreshTokenDocument>;
 }
 
-const RefreshTokenSchema = new Schema<IRefreshTokenDocument, IRefreshTokenModel>({
+export const RefreshTokenSchema = new Schema<IRefreshTokenDocument, IRefreshTokenModel>({
   token: {
     type: String,
     required: true,

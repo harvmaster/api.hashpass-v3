@@ -15,7 +15,13 @@ const start = async () => {
   // Connect to mongoDB
   try {
     console.log('Connecting to MongoDB')
-    await mongoose.connect()
+    // Check if prod environment
+    if (process.env.NODE_ENV === 'production') {
+      console.log('Connecting to prod MongoDB')
+      await mongoose.connect(config.mongoDB)
+    }
+
+    // await mongoose.connect(config.mongoDB)
     console.log('Connected to MongoDB')
   } catch (err) {
     console.error(err.message)
