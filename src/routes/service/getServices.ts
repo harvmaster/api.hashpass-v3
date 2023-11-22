@@ -23,7 +23,9 @@ export const getServices = async (req: AuthenticatedRequest, res: Response) => {
     return res.status(400).json({ error: 'Services not found' })
   }
 
-  return res.json({ services })
+  const formattedServices = services.map(service => service.toAuthJSON())
+
+  return res.json({ services: formattedServices })
 }
 
 export default getServices

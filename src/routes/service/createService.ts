@@ -32,7 +32,7 @@ export const createService = async (req: AuthenticatedRequest, res: Response) =>
 
   await service.save()
 
-  return res.json({ service })
+  return res.status(201).json({ service: service.toAuthJSON() })
 }
 
 export default createService

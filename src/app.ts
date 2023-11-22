@@ -10,7 +10,9 @@ import Socket from './services/socket'
 
 import config from '../config'
 
-const start = async () => {
+
+let server;
+export const startServer = async () => {
   
   // Connect to mongoDB
   try {
@@ -43,7 +45,7 @@ const start = async () => {
   //
   // Set port and start ExpressJS Server
   //
-  const server = app.listen(config.port)
+  server = app.listen(config.port)
   const address = server.address() as AddressInfo
   console.log('Starting ExpressJS server')
   console.log(`ExpressJS listening at http://${address.address}:${address.port}`)
@@ -58,4 +60,6 @@ const start = async () => {
   }
 }
 
-start()
+export const stopServer = async () => {
+  server.close()
+}

@@ -1,19 +1,18 @@
 import axios from 'axios'
 import mongoose from 'mongoose'
-import { connectDB, dropDB, dropCollections } from './setupDB'
-import '../../src/app'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import { connectDB, dropDB, dropCollections } from './helpers/setupDB'
+import { startServer, stopServer } from '../../src/app'
 
-let mongo: MongoMemoryServer
+// import '../../src/app'
 
 beforeAll(async () => {
-  mongo = await connectDB()
+  await startServer()
+  await connectDB()
 })
 
 afterAll(async () => {
-  await dropCollections(mongo)
-  await dropDB(mongo)
-  await mongoose.disconnect()
+  await dropCollections()
+  await stopServer()
 })
 
 describe('User', () => {
@@ -118,6 +117,13 @@ describe('User', () => {
       }).catch(err =>  {
         console.log(err.response.data)
         expect(err.response.status).toBe(401)
+      })
+    })
+
+    it('should not refresh a user without a refresh token', async () => {
+      const response = await axios.post('http://localhost:3000/user/refresh').catch(err =>  {
+        console.log(err.response.data)
+        expect(err.response.status).toBe(400)
       })
     })
   })

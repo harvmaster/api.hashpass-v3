@@ -98,14 +98,7 @@ interface UpdateServiceRequest {
 }
 
 interface UpdateServiceResponse {
-  service: {
-    name: string
-    domain?: string
-    logo?: string
-    notes?: string[]
-    algorithm?: string
-    create_date: Date
-  }
+  service: Service
 }
 
 interface ErrorResponse {

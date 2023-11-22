@@ -32,7 +32,7 @@ export const updateService = async (req: AuthenticatedRequest, res: Response<API
 
   const updatedService = await Service.findOneAndUpdate({ id: service.id }, updatedBody, { new: true })
 
-  return res.json({ updatedService.toAuthJSON() })
+  return res.json({ service: updatedService.toAuthJSON() })
 }
 
 export default updateService

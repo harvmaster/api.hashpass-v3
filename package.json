@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "ts-node-dev src/app.ts",
-    "test": "jest --verbose --coverage --detectOpenHandles"
+    "start": "ts-node-dev src/server.ts",
+    "test": "jest --verbose --coverage --detectOpenHandles  --runInBand"
   },
   "dependencies": {
     "@noble/secp256k1": "^2.0.0",

@@ -14,6 +14,9 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
     if (!refreshToken) {
       return res.status(401).json({ message: 'Invalid refresh token' })
     }
+    if (refreshToken.revoked) {
+      return res.status(401).json({ message: 'Revoked refresh token' })
+    }
 
     const user_id = await validateRefreshToken(refresh_token)
     if (!user_id) {
