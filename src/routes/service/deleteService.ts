@@ -31,7 +31,7 @@ export const deleteService = async (req: AuthenticatedRequest, res: Response) =>
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
-  const deleted = await Service.findOneAndDelete({ id: service.id })
+  const deleted = await Service.findOneAndDelete({ name: service.name, user: user._id })
   if (!deleted) {
     return res.status(400).json({ error: 'Something went wrong while trying to delete the service' })
   }

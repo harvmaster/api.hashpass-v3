@@ -150,8 +150,8 @@ describe('Service', () => {
   })
 
   describe('DELETE /service', () => {
-    expect.assertions(1)
     it('should delete a service', async () => {
+      expect.assertions(1)
       const services = await axios.post<{ service: Service }>('http://localhost:3000/service', {
         name: 'testservice2',
         logo: 'https://testservice.com/logo.png',
@@ -173,7 +173,7 @@ describe('Service', () => {
 
       const response = await axios.delete('http://localhost:3000/service', {
         data: {
-          id: services?.data?.service?.id
+          name: services?.data?.service?.name
         },
         headers: {
           Authorization: `Bearer ${access_token}`
