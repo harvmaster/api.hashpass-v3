@@ -17,12 +17,12 @@ export const deleteService = async (req: AuthenticatedRequest, res: Response) =>
     return res.status(400).json({ error: 'User not found' })
   }
 
-  const { id } = req.body
-  if (!id) {
-    return res.status(400).json({ error: 'Service ID is required' })
+  const { name } = req.body
+  if (!name) {
+    return res.status(400).json({ error: 'Service name is required' })
   }
 
-  const service = await Service.findById(id)
+  const service = await Service.findOne({ name, user: user._id })
   if (!service) {
     return res.status(400).json({ error: 'Service not found' })
   }
@@ -36,7 +36,7 @@ export const deleteService = async (req: AuthenticatedRequest, res: Response) =>
     return res.status(400).json({ error: 'Something went wrong while trying to delete the service' })
   }
 
-  return res.status(201).send({ status: 'success' })
+  return res.status(200).send({ status: 'success' })
 }
 
 export default deleteService

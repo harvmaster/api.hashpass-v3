@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.77% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/18</span>
+                <span class='fraction'>15/18</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.66% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/15</span>
+                <span class='fraction'>12/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -103,24 +103,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response } from 'express';
@@ -132,25 +132,25 @@ interface AuthenticatedRequest extends Request {
 }
 &nbsp;
 // Returns a list of services for a user
-export const getServices = <span class="fstat-no" title="function not covered" >async (r</span>eq: AuthenticatedRequest, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const userId = <span class="cstat-no" title="statement not covered" >req.user</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {</span>
+export const getServices = async (req: AuthenticatedRequest, res: Response) =&gt; {
+  const userId = req.user
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {
 <span class="cstat-no" title="statement not covered" >    return res.status(401).json({ message: 'Unauthorized' })</span>
   }
 &nbsp;
-  const user = <span class="cstat-no" title="statement not covered" >await User.findById(userId)</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {</span>
+  const user = await User.findById(userId)
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {
 <span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'User not found' })</span>
   }
 &nbsp;
-  const services = <span class="cstat-no" title="statement not covered" >await Service.find({ user: user._id })</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!services) {</span>
+  const services = await Service.find({ user: user._id })
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!services) {
 <span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'Services not found' })</span>
   }
 &nbsp;
-  const formattedServices = <span class="cstat-no" title="statement not covered" >services.map(<span class="fstat-no" title="function not covered" >service </span>=&gt; <span class="cstat-no" title="statement not covered" >service.toAuthJSON())</span></span>
+  const formattedServices = services.map(service =&gt; service.toAuthJSON())
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return res.json({ services: formattedServices })</span>
+  return res.json({ services: formattedServices })
 }
 &nbsp;
 export default getServices</pre></td></tr></table></pre>
@@ -160,7 +160,7 @@ export default getServices</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-22T15:14:40.041Z
+                at 2023-11-22T15:44:58.599Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

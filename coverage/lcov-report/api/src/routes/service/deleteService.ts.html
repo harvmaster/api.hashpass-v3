@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.83% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/24</span>
+                <span class='fraction'>16/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">63.63% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/22</span>
+                <span class='fraction'>14/22</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -112,25 +112,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -153,25 +153,25 @@ interface AuthenticatedRequest extends Request {
   user: string;
 }
 &nbsp;
-export const deleteService = <span class="fstat-no" title="function not covered" >async (r</span>eq: AuthenticatedRequest, res: Response) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  const userId = <span class="cstat-no" title="statement not covered" >req.user</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {</span>
+export const deleteService = async (req: AuthenticatedRequest, res: Response) =&gt; {
+  const userId = req.user
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {
 <span class="cstat-no" title="statement not covered" >    return res.status(401).json({ message: 'Unauthorized' })</span>
   }
 &nbsp;
-  const user = <span class="cstat-no" title="statement not covered" >await User.findById(userId)</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {</span>
+  const user = await User.findById(userId)
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {
 <span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'User not found' })</span>
   }
 &nbsp;
-  const { id } = <span class="cstat-no" title="statement not covered" >req.body</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!id) {</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'Service ID is required' })</span>
+  const { name } = req.body
+  if (!name) {
+    return res.status(400).json({ error: 'Service name is required' })
   }
 &nbsp;
-  const service = <span class="cstat-no" title="statement not covered" >await Service.findById(id)</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!service) {</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'Service not found' })</span>
+  const service = await Service.findOne({ name, user: user._id })
+  if (!service) {
+    return res.status(400).json({ error: 'Service not found' })
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (service.user.toString() !== user._id.toString()) {</span>
@@ -183,7 +183,7 @@ export const deleteService = <span class="fstat-no" title="function not covered"
 <span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'Something went wrong while trying to delete the service' })</span>
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return res.status(201).send({ status: 'success' })</span>
+<span class="cstat-no" title="statement not covered" >  return res.status(200).send({ status: 'success' })</span>
 }
 &nbsp;
 export default deleteService</pre></td></tr></table></pre>
@@ -193,7 +193,7 @@ export default deleteService</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-22T15:14:40.041Z
+                at 2023-11-22T15:44:58.599Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
