@@ -21,6 +21,14 @@ export const createService = async (req: AuthenticatedRequest, res: Response) =>
   if (!name) {
     return res.status(400).json({ error: 'Name is required' })
   }
+  if (!algorithm) {
+    return res.status(400).json({ error: 'Algorithm is required' })
+  }
+
+  const existingService = await Service.findOne({ name, user: user._id })
+  if (existingService) {
+    return res.status(409).json({ error: 'Service already exists' })
+  }
 
   const service = new Service({
     name,

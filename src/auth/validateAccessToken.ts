@@ -11,7 +11,7 @@ export const validateAccessToken = (req: Request, res: Response, next: NextFunct
   if (!token) return res.sendStatus(401);
 
   jwt.verify(token, jwt_secret, (err, user) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.status(400).json({ error: 'Invalid token' });
     // @ts-ignore
     req.user = user.id;
     next();

@@ -47,38 +47,64 @@ describe('Service', () => {
       expect(response.status).toBe(201)
     })
 
-    // it('should not create a new service with the same name', async () => {
-    //   const response = await axios.post('http://localhost:3000/service', {
-    //     name: 'testservice',
-    //     url: 'https://testservice.com',
-    //     icon: 'https://testservice.com/icon.png',
-    //     color: '#000000'
-    //   }).catch(err =>  {
-    //     console.log(err.response.data)
-    //     expect(err.response.status).toBe(409)
-    //   })
-    // })
+    it('should not create a new service when name is missing', async () => {
+      expect.assertions(1)
+      const response = await axios.post('http://localhost:3000/service', {
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote1', 'testnote2'],
+        algorithm: 'hp3',
+      }, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }).catch(err =>  {
+        console.log(err.response.data)
+        expect(err.response.status).toBe(400)
+      })
+    })
 
-    // it('should not create a new service when name is missing', async () => {
-    //   const response = await axios.post('http://localhost:3000/service', {
-    //     url: 'https://testservice.com',
-    //     icon: 'https://testservice.com/icon.png',
-    //     color: '#000000'
-    //   }).catch(err =>  {
-    //     console.log(err.response.data)
-    //     expect(err.response.status).toBe(400)
-    //   })
-    // })
+    it('should not create a new service when algorithm is missing', async () => {
+      expect.assertions(1)
+      const response = await axios.post('http://localhost:3000/service', {
+        name: 'testservice3',
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote1', 'testnote2'],
+      }, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }).catch(err =>  {
+        console.log(err.response.data)
+        expect(err.response.status).toBe(400)
+      })
+    })
 
-    // it('should not create a new service when url is missing', async () => {
-    //   const response = await axios.post('http://localhost:3000/service', {
-    //     name: 'testservice',
-    //     icon: 'https://testservice.com/icon.png',
-    //     color: '#000000'
-    //   }).catch(err =>  {
-    //     console.log(err.response.data)
-    //     expect(err.response.status).toBe(400)
-    //   })
-    // })
+    it('should not create a new service when access token is missing', async () => {
+      const response = await axios.post('http://localhost:3000/service', {
+        name: 'testservice4',
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote1', 'testnote2'],
+        algorithm: 'hp3',
+      }).catch(err =>  {
+        console.log(err.response.data)
+        expect(err.response.status).toBe(401)
+      })
+    })
+
+    it('should not create a new service when access token is invalid', async () => {
+      const response = await axios.post('http://localhost:3000/service', {
+        name: 'testservice5',
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote1', 'testnote2'],
+        algorithm: 'hp3',
+      }, {
+        headers: {
+          Authorization: `Bearer invalidtoken`
+        }
+      }).catch(err =>  {
+        console.log(err.response.data)
+        expect(err.response.status).toBe(400)
+      })
+    })
   })
 })

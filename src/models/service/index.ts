@@ -29,7 +29,7 @@ const serviceSchema = new mongoose.Schema<ServiceModel>({
   notes: [String],
   algorithm: {
     type: String,
-    default: 'hp1',
+    default: 'hp3',
   },
   create_date: {
     type: Date,
