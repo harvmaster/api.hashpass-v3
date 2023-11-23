@@ -246,4 +246,84 @@ describe('Service', () => {
     })
   })
 
+  describe('PUT /service', () => {
+    it('should update a service', async () => {
+      expect.assertions(2)
+      const services = await axios.post<{ service: Service }>('http://localhost:3000/service', {
+        name: 'testservice2',
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote1', 'testnote2'],
+        algorithm: 'hp3',
+      }, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }).catch(err =>  {
+        console.log(err.response.data)
+      })
+
+      if (!services) {
+        return
+      }
+
+      console.log(services.data)
+
+      const response = await axios.put('http://localhost:3000/service', {
+        name: 'testservice2',
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote2', 'testnote3'],
+        algorithm: 'hp3',
+      }, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }).catch(err =>  {
+        console.log(err.response.data)
+      })
+
+      if (!response) {
+        return
+      }
+
+      console.log(response.data)
+      expect(response.status).toBe(200)
+      expect(response.data.service.notes[1].toString()).toBe('testnote3')
+    })
+
+    it('should not update a service when name is invalid', async () => {
+      expect.assertions(1)
+      const response = await axios.put('http://localhost:3000/service', {
+        id: '5e9d5e8d7c6f6a1f4c6b9c3e',
+        name: 'invalidName',
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote1', 'testnote2'],
+        algorithm: 'hp3',
+      }, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }).catch(err =>  {
+        console.log(err.response.data)
+        expect(err.response.status).toBe(400)
+      })
+    })
+
+    it('should not update a service when name is missing', async () => {
+      expect.assertions(1)
+      const response = await axios.put('http://localhost:3000/service', {
+        id: '5e9d5e8d7c6f6a1f4c6b9c3e',
+        logo: 'https://testservice.com/logo.png',
+        notes: ['testnote1', 'testnote2'],
+        algorithm: 'hp3',
+      }, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }).catch(err =>  {
+        console.log(err.response.data)
+        expect(err.response.status).toBe(400)
+      })
+    })
+
+  })
 })

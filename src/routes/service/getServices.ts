@@ -8,24 +8,29 @@ interface AuthenticatedRequest extends Request {
 
 // Returns a list of services for a user
 export const getServices = async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user
-  if (!userId) {
-    return res.status(401).json({ message: 'Unauthorized' })
+  try { 
+    const userId = req.user
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    const user = await User.findById(userId)
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' })
+    }
+
+    const services = await Service.find({ user: user._id })
+    if (!services) {
+      return res.status(400).json({ error: 'Services not found' })
+    }
+
+    const formattedServices = services.map(service => service.toAuthJSON())
+
+    return res.json({ services: formattedServices })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ error: 'An internal server error occurred. Please try again later' })
   }
-
-  const user = await User.findById(userId)
-  if (!user) {
-    return res.status(400).json({ error: 'User not found' })
-  }
-
-  const services = await Service.find({ user: user._id })
-  if (!services) {
-    return res.status(400).json({ error: 'Services not found' })
-  }
-
-  const formattedServices = services.map(service => service.toAuthJSON())
-
-  return res.json({ services: formattedServices })
 }
 
 export default getServices
