@@ -44,7 +44,11 @@ describe('Service', () => {
       const response = await axios.post('http://localhost:3000/service', {
         name: 'testservice',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testusername',
+          email: 'testemail',
+          other: 'testother'
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -59,7 +63,11 @@ describe('Service', () => {
       expect.assertions(1)
       const response = await axios.post('http://localhost:3000/service', {
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testusername',
+          email: 'testemail',
+          other: 'testother'
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -76,7 +84,11 @@ describe('Service', () => {
       const response = await axios.post('http://localhost:3000/service', {
         name: 'testservice3',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testusername',
+          email: 'testemail',
+          other: 'testother'
+        },
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
@@ -91,7 +103,11 @@ describe('Service', () => {
       const response = await axios.post('http://localhost:3000/service', {
         name: 'testservice4',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testusername',
+          email: 'testemail',
+          other: 'testother'
+        },
         algorithm: 'hp3',
       }).catch(err =>  {
         console.log(err.response.data)
@@ -103,7 +119,12 @@ describe('Service', () => {
       const response = await axios.post('http://localhost:3000/service', {
         name: 'testservice5',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testusername',
+          email: 'testemail',
+          other: 'testother'
+        
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -155,7 +176,11 @@ describe('Service', () => {
       const services = await axios.post<{ service: Service }>('http://localhost:3000/service', {
         name: 'testservice2',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testusername',
+          email: 'testemail',
+          other: 'testother'
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -252,7 +277,11 @@ describe('Service', () => {
       const services = await axios.post<{ service: Service }>('http://localhost:3000/service', {
         name: 'testservice2',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testusername',
+          email: 'testemail',
+          other: 'testother'
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -271,7 +300,11 @@ describe('Service', () => {
       const response = await axios.put('http://localhost:3000/service', {
         name: 'testservice2',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote2', 'testnote3'],
+        notes: {
+          username: 'updatedUsername',
+          email: 'emailTest',
+          other: ''
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -287,7 +320,7 @@ describe('Service', () => {
 
       console.log(response.data)
       expect(response.status).toBe(200)
-      expect(response.data.service.notes[1].toString()).toBe('testnote3')
+      expect(response.data.service.notes.username).toBe('updatedUsername')
     })
 
     it('should not update a service when name is invalid', async () => {
@@ -296,7 +329,11 @@ describe('Service', () => {
         id: '5e9d5e8d7c6f6a1f4c6b9c3e',
         name: 'invalidName',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testUser',
+          email: 'testemail',
+          other: 'testOther'
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -313,7 +350,11 @@ describe('Service', () => {
       const response = await axios.put('http://localhost:3000/service', {
         id: '5e9d5e8d7c6f6a1f4c6b9c3e',
         logo: 'https://testservice.com/logo.png',
-        notes: ['testnote1', 'testnote2'],
+        notes: {
+          username: 'testUser',
+          email: 'testemail',
+          other: 'testOther'
+        },
         algorithm: 'hp3',
       }, {
         headers: {
@@ -324,6 +365,5 @@ describe('Service', () => {
         expect(err.response.status).toBe(400)
       })
     })
-
   })
 })

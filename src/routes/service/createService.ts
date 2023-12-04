@@ -26,6 +26,11 @@ export const createService = async (req: AuthenticatedRequest, res: Response) =>
       return res.status(400).json({ error: 'Algorithm is required' })
     }
 
+    // Validate Notes types
+    if (!Service.isValidService(req.body)[0]) {
+      return res.status(400).json({ error: Service.isValidService(req.body) })
+    }
+
     const existingService = await Service.findOne({ name, user: user._id })
     if (existingService) {
       return res.status(409).json({ error: 'Service already exists' })

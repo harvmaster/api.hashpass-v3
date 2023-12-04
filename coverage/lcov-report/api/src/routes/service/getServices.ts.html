@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">76.19% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/18</span>
+                <span class='fraction'>16/21</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">72.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/15</span>
+                <span class='fraction'>13/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -93,7 +93,12 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -103,6 +108,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -121,6 +127,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response } from 'express';
@@ -133,24 +143,29 @@ interface AuthenticatedRequest extends Request {
 &nbsp;
 // Returns a list of services for a user
 export const getServices = async (req: AuthenticatedRequest, res: Response) =&gt; {
-  const userId = req.user
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {
-<span class="cstat-no" title="statement not covered" >    return res.status(401).json({ message: 'Unauthorized' })</span>
+  try { 
+    const userId = req.user
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {
+<span class="cstat-no" title="statement not covered" >      return res.status(401).json({ message: 'Unauthorized' })</span>
+    }
+&nbsp;
+    const user = await User.findById(userId)
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'User not found' })</span>
+    }
+&nbsp;
+    const services = await Service.find({ user: user._id })
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!services) {
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Services not found' })</span>
+    }
+&nbsp;
+    const formattedServices = services.map(service =&gt; service.toAuthJSON())
+&nbsp;
+    return res.json({ services: formattedServices })
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    console.error(err)</span>
+<span class="cstat-no" title="statement not covered" >    return res.status(500).json({ error: 'An internal server error occurred. Please try again later' })</span>
   }
-&nbsp;
-  const user = await User.findById(userId)
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {
-<span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'User not found' })</span>
-  }
-&nbsp;
-  const services = await Service.find({ user: user._id })
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (!services) {
-<span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'Services not found' })</span>
-  }
-&nbsp;
-  const formattedServices = services.map(service =&gt; service.toAuthJSON())
-&nbsp;
-  return res.json({ services: formattedServices })
 }
 &nbsp;
 export default getServices</pre></td></tr></table></pre>
@@ -160,7 +175,7 @@ export default getServices</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-23T04:34:11.761Z
+                at 2023-12-04T04:32:23.229Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
