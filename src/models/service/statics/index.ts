@@ -1,0 +1,1 @@
+export { default as isValidService } from './isValidService'

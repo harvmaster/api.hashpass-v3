@@ -53,7 +53,11 @@ interface GetUserResponse {
 interface CreateServiceRequest {
   name: string
   logo: string
-  notes: string
+  notes?: {
+    username?: string
+    email?: string
+    other?: string
+  },
   algorithm: string
 }
 
@@ -61,7 +65,15 @@ interface CreateServiceResponse {
   service: {
     name: string
     logo: string
-    notes: string
+    notes: {
+      username: string
+      email: string
+      other: string
+    }
+    status: {
+      timesUsed: number
+      lastUsed: number
+    }
     algorithm: string
     create_date: Date
   }
@@ -83,7 +95,11 @@ interface GetServiceResponse {
   service: {
     name: string
     logo: string
-    notes: string
+    notes: {
+      username: string
+      email: string
+      other: string
+    }
     algorithm: string
     create_date: Date
   }
@@ -93,7 +109,11 @@ interface UpdateServiceRequest {
   id: string
   name: string
   logo: string
-  notes: string
+  notes: {
+    username: string
+    email: string
+    other: string
+  }
   algorithm: string
 }
 
@@ -102,7 +122,7 @@ interface UpdateServiceResponse {
 }
 
 interface ErrorResponse {
-  error: string
+  error?: string | { [key: string]: string }
 }
 
 // Dynamic union that takes an interface and returns a union of it or the ErrorResponse

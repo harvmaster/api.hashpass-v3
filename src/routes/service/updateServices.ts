@@ -35,6 +35,11 @@ export const updateService = async (req: AuthenticatedRequest, res: Response<API
       return res.status(401).json({ error: 'Unauthorized' })
     }
 
+    const isValidService = Service.isValidService(req.body);
+    if (!isValidService[0]) {
+      return res.status(400).json({ error: isValidService[1] })
+    }
+
     const updatedBody = { ...service.toAuthJSON(), ...updateBody }
 
     const updatedService = await Service.findOneAndUpdate({ name: updateBody.name, user: user._id }, updatedBody, { new: true })

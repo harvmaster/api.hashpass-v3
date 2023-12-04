@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1701664343250" clover="3.2.0">
-  <project timestamp="1701664343250" name="All files">
-    <metrics statements="380" coveredstatements="312" conditionals="55" coveredconditionals="26" methods="65" coveredmethods="47" elements="500" coveredelements="385" complexity="0" loc="380" ncloc="380" packages="11" files="24" classes="24"/>
+<coverage generated="1701670995269" clover="3.2.0">
+  <project timestamp="1701670995269" name="All files">
+    <metrics statements="387" coveredstatements="318" conditionals="56" coveredconditionals="26" methods="66" coveredmethods="48" elements="509" coveredelements="392" complexity="0" loc="387" ncloc="387" packages="12" files="26" classes="26"/>
     <package name="api">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="config.ts" path="/home/harvmaster/Projects/Hashpass/v3/api/config.ts">
@@ -139,34 +139,47 @@
       </file>
     </package>
     <package name="api.src.models.service">
-      <metrics statements="25" coveredstatements="18" conditionals="14" coveredconditionals="7" methods="2" coveredmethods="2"/>
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="index.ts" path="/home/harvmaster/Projects/Hashpass/v3/api/src/models/service/index.ts">
-        <metrics statements="25" coveredstatements="18" conditionals="14" coveredconditionals="7" methods="2" coveredmethods="2"/>
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
-        <line num="30" count="2" type="stmt"/>
-        <line num="67" count="2" type="stmt"/>
-        <line num="68" count="6" type="stmt"/>
-        <line num="69" count="6" type="stmt"/>
-        <line num="72" count="2" type="stmt"/>
-        <line num="73" count="3" type="stmt"/>
-        <line num="74" count="3" type="cond" truecount="0" falsecount="1"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="77" count="3" type="cond" truecount="0" falsecount="1"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="80" count="3" type="cond" truecount="1" falsecount="0"/>
-        <line num="81" count="3" type="cond" truecount="0" falsecount="1"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="84" count="3" type="cond" truecount="0" falsecount="1"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="87" count="3" type="cond" truecount="2" falsecount="1"/>
-        <line num="88" count="0" type="stmt"/>
-        <line num="90" count="3" type="cond" truecount="2" falsecount="1"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="93" count="3" type="cond" truecount="2" falsecount="1"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="97" count="3" type="stmt"/>
-        <line num="100" count="2" type="stmt"/>
-        <line num="101" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="71" count="2" type="stmt"/>
+        <line num="72" count="6" type="stmt"/>
+        <line num="73" count="6" type="stmt"/>
+        <line num="76" count="2" type="stmt"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="api.src.models.service.statics">
+      <metrics statements="20" coveredstatements="13" conditionals="14" coveredconditionals="7" methods="2" coveredmethods="2"/>
+      <file name="index.ts" path="/home/harvmaster/Projects/Hashpass/v3/api/src/models/service/statics/index.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="4" type="stmt"/>
+      </file>
+      <file name="isValidService.ts" path="/home/harvmaster/Projects/Hashpass/v3/api/src/models/service/statics/isValidService.ts">
+        <metrics statements="19" coveredstatements="12" conditionals="14" coveredconditionals="7" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="6" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="10" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="22" count="4" type="cond" truecount="2" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
       </file>
     </package>
     <package name="api.src.models.user">
@@ -208,7 +221,7 @@
       </file>
     </package>
     <package name="api.src.routes.service">
-      <metrics statements="105" coveredstatements="83" conditionals="20" coveredconditionals="6" methods="9" coveredmethods="9"/>
+      <metrics statements="108" coveredstatements="85" conditionals="21" coveredconditionals="6" methods="9" coveredmethods="9"/>
       <file name="createService.ts" path="/home/harvmaster/Projects/Hashpass/v3/api/src/routes/service/createService.ts">
         <metrics statements="26" coveredstatements="20" conditionals="6" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
@@ -303,7 +316,7 @@
         <line num="17" count="2" type="stmt"/>
       </file>
       <file name="updateServices.ts" path="/home/harvmaster/Projects/Hashpass/v3/api/src/routes/service/updateServices.ts">
-        <metrics statements="24" coveredstatements="19" conditionals="5" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="27" coveredstatements="21" conditionals="6" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
@@ -323,11 +336,14 @@
         <line num="34" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="35" count="0" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="48" count="2" type="stmt"/>
+        <line num="39" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
       </file>
     </package>
     <package name="api.src.routes.user">
