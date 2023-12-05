@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for api/src/routes/service/getServices.ts</title>
+    <title>Code coverage report for api/src/routes/logos/getLogo.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">api/src/routes/service</a> getServices.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">api/src/routes/logos</a> getLogo.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.19% </span>
+                <span class="strong">78.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/21</span>
+                <span class='fraction'>11/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.22% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/18</span>
+                <span class='fraction'>9/12</span>
             </div>
         
             
@@ -93,14 +93,13 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -115,15 +114,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -134,41 +124,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response } from 'express';
-import User from '../../models/user';
-import Service from '../../models/service';
+import axios from 'axios';
 &nbsp;
-interface AuthenticatedRequest extends Request {
-  user: string;
+interface FaviconScraperResponse {
+  icons: {
+    src: string;
+    size: {
+      width: number;
+      height: number;
+    };
+  }[]
 }
 &nbsp;
-// Returns a list of services for a user
-export const getServices = async (req: AuthenticatedRequest, res: Response) =&gt; {
-  try { 
-    const userId = req.user
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {
-<span class="cstat-no" title="statement not covered" >      return res.status(401).json({ message: 'Unauthorized' })</span>
+export const getLogos = async (req: Request, res: Response) =&gt; {
+  try {
+    const { domain } = req.query
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!domain) {
+<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Domain is required' })</span>
     }
 &nbsp;
-    const user = await User.findById(userId)
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {
-<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'User not found' })</span>
-    }
+    const { data } = await axios.get&lt;FaviconScraperResponse&gt;(`https://api.faviconscraper.mc.hzuccon.com/icon?url=${domain}`)
+    console.log(data)
 &nbsp;
-    const services = await Service.find({ user: user._id })
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!services) {
-<span class="cstat-no" title="statement not covered" >      return res.status(400).json({ error: 'Services not found' })</span>
-    }
-&nbsp;
-    const formattedServices = services.map(service =&gt; service.toAuthJSON())
-&nbsp;
-    return res.json({ services: formattedServices })
+    return res.status(200).json({ logo: data })
   } catch (err) {
 <span class="cstat-no" title="statement not covered" >    console.error(err)</span>
 <span class="cstat-no" title="statement not covered" >    return res.status(500).json({ error: 'An internal server error occurred. Please try again later' })</span>
   }
 }
 &nbsp;
-export default getServices</pre></td></tr></table></pre>
+export default getLogos</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

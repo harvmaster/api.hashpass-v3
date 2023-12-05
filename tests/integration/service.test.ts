@@ -5,6 +5,13 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 // import { connect } from './Server'
 import { startServer, stopServer } from '../../src/app'
 
+const DEBUG = false
+const log = (...args: any[]) => {
+  if (DEBUG) {
+    console.log(...args)
+  }
+}
+
 let mongo: MongoMemoryServer
 let access_token: string
 
@@ -55,7 +62,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       })
-      console.log(response.data)
+      log(response.data)
       expect(response.status).toBe(201)
     })
 
@@ -74,7 +81,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -94,7 +101,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -110,7 +117,7 @@ describe('Service', () => {
         },
         algorithm: 'hp3',
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(401)
       })
     })
@@ -131,7 +138,7 @@ describe('Service', () => {
           Authorization: `Bearer invalidtoken`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -144,7 +151,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       })
-      console.log(response.data)
+      log(response.data)
       expect(response.status).toBe(200)
       expect(response.data.services.length).toBe(1)
     })
@@ -152,7 +159,7 @@ describe('Service', () => {
     it('should not get a list of services when access token is missing', async () => {
       expect.assertions(1)
       const response = await axios.get('http://localhost:3000/service').catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(401)
       })
     })
@@ -164,7 +171,7 @@ describe('Service', () => {
           Authorization: `Bearer invalidtoken`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -187,14 +194,14 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
       })
 
       if (!services) {
         return
       }
 
-      console.log(services.data)
+      log(services.data)
 
       const response = await axios.delete('http://localhost:3000/service', {
         data: {
@@ -204,7 +211,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         // expect(err.response.status).toBe(400)
       })
 
@@ -212,7 +219,7 @@ describe('Service', () => {
         return
       }
 
-      console.log(response.data)
+      log(response.data)
       expect(response.status).toBe(200)
     })
 
@@ -226,7 +233,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -238,7 +245,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -250,7 +257,7 @@ describe('Service', () => {
           id: '5e9d5e8d7c6f6a1f4c6b9c3e'
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(401)
       })
     })
@@ -265,7 +272,7 @@ describe('Service', () => {
           Authorization: `Bearer invalidtoken`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -288,14 +295,14 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
       })
 
       if (!services) {
         return
       }
 
-      console.log(services.data)
+      log(services.data)
 
       const response = await axios.put('http://localhost:3000/service', {
         name: 'testservice2',
@@ -311,14 +318,14 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
       })
 
       if (!response) {
         return
       }
 
-      console.log(response.data)
+      log(response.data)
       expect(response.status).toBe(200)
       expect(response.data.service.notes.username).toBe('updatedUsername')
     })
@@ -340,7 +347,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -361,7 +368,7 @@ describe('Service', () => {
           Authorization: `Bearer ${access_token}`
         }
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })

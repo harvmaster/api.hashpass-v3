@@ -5,6 +5,13 @@ import { startServer, stopServer } from '../../src/app'
 
 // import '../../src/app'
 
+const DEBUG = false
+const log = (...args: any[]) => {
+  if (DEBUG) {
+    console.log(...args)
+  }
+}
+
 beforeAll(async () => {
   await startServer()
   await connectDB()
@@ -22,7 +29,7 @@ describe('User', () => {
         username: 'testuser',
         password: 'testpassword'
       })
-      console.log(response.data)
+      log(response.data)
       expect(response.status).toBe(201)
     })
 
@@ -31,7 +38,7 @@ describe('User', () => {
         username: 'testuser',
         password: 'testpassword'
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(409)
       })
     })
@@ -40,7 +47,7 @@ describe('User', () => {
       const response = await axios.post('http://localhost:3000/user', {
         password: 'testpassword'
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -49,7 +56,7 @@ describe('User', () => {
       const response = await axios.post('http://localhost:3000/user', {
         username: 'testuser'
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
@@ -64,7 +71,7 @@ describe('User', () => {
         username: 'testuser',
         password: 'testpassword'
       })
-      console.log(response.data)
+      log(response.data)
       access_token = response.data.access_token
       refresh_token = response.data.refresh_token.token
 
@@ -76,7 +83,7 @@ describe('User', () => {
         username: 'testuser',
         password: 'wrongpassword'
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(401)
       })
     })
@@ -89,13 +96,13 @@ describe('User', () => {
           'Authorization': `Bearer ${access_token}`
         }
       })
-      console.log(response.data)
+      log(response.data)
       expect(response.status).toBe(200)
     })
 
     it('should not get a user without a token', async () => {
       const response = await axios.get('http://localhost:3000/user').catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(401)
       })
     })
@@ -106,7 +113,7 @@ describe('User', () => {
       const response = await axios.post('http://localhost:3000/user/refresh', {
         refresh_token
       })
-      console.log(response.data)
+      log(response.data)
       access_token = response.data.access_token
       expect(response.status).toBe(200)
     })
@@ -115,14 +122,14 @@ describe('User', () => {
       const response = await axios.post('http://localhost:3000/user/refresh', {
         refresh_token: 'wrongtoken'
       }).catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(401)
       })
     })
 
     it('should not refresh a user without a refresh token', async () => {
       const response = await axios.post('http://localhost:3000/user/refresh').catch(err =>  {
-        console.log(err.response.data)
+        log(err.response.data)
         expect(err.response.status).toBe(400)
       })
     })
