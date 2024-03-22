@@ -7,6 +7,13 @@ import { startServer, stopServer } from '../../src/app'
 let mongo: MongoMemoryServer
 let access_token: string
 
+const DEBUG = false
+const log = (...args: any[]) => {
+  if (DEBUG) {
+    console.log(...args)
+  }
+}
+
 const createUser = async () => {
   const { data } = await axios.post('http://localhost:3000/user', {
     username: 'testuser2',
@@ -39,7 +46,31 @@ describe('Logo', () => {
         }
       })
 
+      log(data)
       expect(data).toBeDefined()
+    })
+
+    it('should return an error when domain is missing', async () => {
+      const { data } = await axios.get('http://localhost:3000/logo/domain',
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }).catch(err => {
+        log(err.response.data)
+        expect(err.response.status).toBe(400)
+        return err.response
+      })
+      expect(data).toStrictEqual({"error": "Domain is required"})
+    })
+
+    it('should return an error when access_token is missing', async () => {
+      const { data } = await axios.get('http://localhost:3000/logo/domain?domain=github.com').catch(err => {
+        log(err.response.data)
+        expect(err.response.status).toBe(401)
+        return err.response
+      })
+      expect(data).toBe("Unauthorized")
     })
   })
 
@@ -52,6 +83,7 @@ describe('Logo', () => {
         }
       })
 
+      log(data)
       expect(data).toBeDefined()
     })
   })
