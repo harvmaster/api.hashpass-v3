@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "ts-node-dev src/server.ts",
+    "start": "NODE_ENV=prduction ts-node-dev src/server.ts ",
     "test": "jest --verbose --coverage --detectOpenHandles  --runInBand"
   },
   "dependencies": {

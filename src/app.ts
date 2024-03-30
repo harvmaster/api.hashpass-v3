@@ -10,7 +10,6 @@ import Socket from './services/socket'
 
 import config from '../config'
 
-
 let server;
 export const startServer = async () => {
   
@@ -18,13 +17,13 @@ export const startServer = async () => {
   try {
     console.log('Connecting to MongoDB')
     // Check if prod environment
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.TS_NODE_DEV) {
       console.log('Connecting to prod MongoDB')
       await mongoose.connect(config.mongoDB)
+      console.log('Connected to MongoDB')
     }
 
-    await mongoose.connect(config.mongoDB)
-    console.log('Connected to MongoDB')
+    // await mongoose.connect(config.mongoDB)
   } catch (err) {
     console.error(err.message)
   }

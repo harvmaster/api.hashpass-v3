@@ -20,7 +20,7 @@ type Service = {
   name: string
   logo: string
   notes: string[]
-  algorithm: string
+  encoding: string
 }
 
 const createUser = async () => {
@@ -56,7 +56,7 @@ describe('Service', () => {
           email: 'testemail',
           other: 'testother'
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
@@ -75,7 +75,7 @@ describe('Service', () => {
           email: 'testemail',
           other: 'testother'
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
@@ -86,7 +86,7 @@ describe('Service', () => {
       })
     })
 
-    it('should not create a new service when algorithm is missing', async () => {
+    it('should not create a new service when encoding is missing', async () => {
       expect.assertions(1)
       const response = await axios.post('http://localhost:3000/service', {
         name: 'testservice3',
@@ -115,7 +115,7 @@ describe('Service', () => {
           email: 'testemail',
           other: 'testother'
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }).catch(err =>  {
         log(err.response.data)
         expect(err.response.status).toBe(401)
@@ -132,7 +132,7 @@ describe('Service', () => {
           other: 'testother'
         
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer invalidtoken`
@@ -188,7 +188,7 @@ describe('Service', () => {
           email: 'testemail',
           other: 'testother'
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
@@ -289,7 +289,7 @@ describe('Service', () => {
           email: 'testemail',
           other: 'testother'
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
@@ -312,7 +312,7 @@ describe('Service', () => {
           email: 'emailTest',
           other: ''
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
@@ -341,7 +341,7 @@ describe('Service', () => {
           email: 'testemail',
           other: 'testOther'
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
@@ -362,7 +362,7 @@ describe('Service', () => {
           email: 'testemail',
           other: 'testOther'
         },
-        algorithm: 'hp3',
+        encoding: 'hp3',
       }, {
         headers: {
           Authorization: `Bearer ${access_token}`
