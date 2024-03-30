@@ -3,8 +3,8 @@ export function isValidService (service): [boolean, { [key: string]: string }] {
   if (!service.name) {
     errors.name = 'Name is required';
   }
-  if (!service.algorithm) {
-    errors.algorithm = 'Algorithm is required';
+  if (!service.encoding) {
+    errors.encoding = 'Encoding is required';
   }
   if (service.notes) {
     if (service.notes.length) {

@@ -21,7 +21,7 @@ export const getLogos = async (req: Request, res: Response) => {
     const { data } = await axios.get<FaviconScraperResponse>(`https://api.faviconscraper.mc.hzuccon.com/icon?url=${domain}`)
     console.log(data)
 
-    return res.status(200).json({ logo: data })
+    return res.status(200).json({ logos: data })
   } catch (err) {
     console.error(err)
     return res.status(500).json({ error: 'An internal server error occurred. Please try again later' })

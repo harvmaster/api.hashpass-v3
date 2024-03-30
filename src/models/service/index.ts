@@ -12,13 +12,13 @@ interface Stats {
   lastUsed: number;
 }
 
-interface Service {
+export interface Service {
   name: string;
   user: mongoose.Schema.Types.ObjectId;
   logo?: string;
   domain?: string;
   notes: Notes
-  algorithm: string;
+  encoding: string;
   stats: Stats
   create_date: Date;
 }
@@ -48,7 +48,7 @@ const serviceSchema = new mongoose.Schema<ServiceModel, IServiceModel>({
     email: String,
     other: String,
   },
-  algorithm: {
+  encoding: {
     type: String,
     default: 'hp3',
   },

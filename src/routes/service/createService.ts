@@ -7,6 +7,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 export const createService = async (req: AuthenticatedRequest, res: Response) => {
+  console.log('createService')
   try {
     const userId = req.user
     if (!userId) {
@@ -18,12 +19,12 @@ export const createService = async (req: AuthenticatedRequest, res: Response) =>
       return res.status(400).json({ error: 'User not found' })
     }
 
-    const { name, logo, notes, algorithm } = req.body
+    const { name, logo, domain, notes, encoding } = req.body
     if (!name) {
       return res.status(400).json({ error: 'Name is required' })
     }
-    if (!algorithm) {
-      return res.status(400).json({ error: 'Algorithm is required' })
+    if (!encoding) {
+      return res.status(400).json({ error: 'encoding is required' })
     }
 
     // Validate Notes types
@@ -39,8 +40,9 @@ export const createService = async (req: AuthenticatedRequest, res: Response) =>
     const service = new Service({
       name,
       logo,
+      domain,
       notes,
-      algorithm,
+      encoding,
       user: user._id,
     })
 

@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import User from '../../models/user';
 import Service from '../../models/service';
 
+import { APIResponse, UpdateServiceResponse } from '../types';
+
 interface AuthenticatedRequest extends Request {
   user: string;
 }
@@ -18,7 +20,7 @@ export const updateService = async (req: AuthenticatedRequest, res: Response<API
       return res.status(400).json({ error: 'User not found' })
     }
 
-    interface UpdateBody extends Partial<Service> {
+    interface UpdateBody extends Partial<typeof Service> {
       name: string;
     }
 

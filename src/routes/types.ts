@@ -1,3 +1,5 @@
+import { Service } from '../models/service'
+
 interface CreateUserRequest {
   username: string
   password: string
@@ -105,7 +107,7 @@ interface GetServiceResponse {
   }
 }
 
-interface UpdateServiceRequest {
+export interface UpdateServiceRequest {
   id: string
   name: string
   logo: string
@@ -117,7 +119,7 @@ interface UpdateServiceRequest {
   algorithm: string
 }
 
-interface UpdateServiceResponse {
+export interface UpdateServiceResponse {
   service: Service
 }
 
@@ -126,4 +128,4 @@ interface ErrorResponse {
 }
 
 // Dynamic union that takes an interface and returns a union of it or the ErrorResponse
-type APIResponse<T> = T | ErrorResponse
+export type APIResponse<T> = T | ErrorResponse

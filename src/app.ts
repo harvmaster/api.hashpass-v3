@@ -23,7 +23,7 @@ export const startServer = async () => {
       await mongoose.connect(config.mongoDB)
     }
 
-    // await mongoose.connect(config.mongoDB)
+    await mongoose.connect(config.mongoDB)
     console.log('Connected to MongoDB')
   } catch (err) {
     console.error(err.message)
