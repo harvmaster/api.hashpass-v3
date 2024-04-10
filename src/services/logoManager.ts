@@ -5,14 +5,14 @@ import Logo, { LogoProps } from '../models/logo';
 /**
  * An interface for the response from the favicon scraper API.
  */
-interface FaviconScraperResponse {
-  icons: {
-    src: string;
-    size: {
-      width: number;
-      height: number;
-    };
-  }[]
+type FaviconScraperResponse = Favicon[]
+
+type Favicon = {
+  src: string;
+  size: {
+    width: number;
+    height: number;
+  };
 }
 
 /**
@@ -74,15 +74,14 @@ class LogoManager {
      * @param urls An array of image URLs to download.
      * @returns A promise that resolves to an array of objects containing the image data.
      */
-    const downloadImages = async (urls: string[]): Promise<DownloadedLogo[]> => {
-      return Promise.all(urls.map(async (url): Promise<DownloadedLogo> => {
-        const data = await downloadImage(url);
-        return { src: url, size: { width: 0, height: 0 }, data };
+    const downloadImages = async (images: FaviconScraperResponse): Promise<DownloadedLogo[]> => {
+      return Promise.all(images.map(async (image): Promise<DownloadedLogo> => {
+        const data = await downloadImage(image.src);
+        return { ...image, data };
       }));
     }
 
-    const imageUrls = data.icons.map(icon => icon.src);
-    const images = await downloadImages(imageUrls);
+    const images = await downloadImages(data);
 
     const savedImages = await Promise.all(images.map(image => this.saveLogo(domain, image)));
 
@@ -104,7 +103,7 @@ class LogoManager {
         redirect: true,
         file: {
           data: Buffer.from(logo.data),
-          type: 'image/png'
+          fileType: 'image/png'
         },
         archived: false
       })

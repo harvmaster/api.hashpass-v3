@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
 
+import config from '../../../config';
+
 import { LogoProps } from '../../models/logo';
 import logoManager from '../../services/logoManager';
 
 interface GetLogosRequestQuery {
-  domain: string;
+  domain?: string;
   maxWidth?: number;
+  data?: boolean;
 }
 
 /**
@@ -14,10 +17,10 @@ interface GetLogosRequestQuery {
  * @param req - The Express request object.
  * @param res - The Express response object.
  */
-export const getLogos = async (req: Request<{}, {}, {}, GetLogosRequestQuery>, res: Response) => {
+export const getLogo = async (req: Request<any, any, any, GetLogosRequestQuery>, res: Response) => {
   try {
     // Get domain and maxWidth from query
-    const { domain, maxWidth = 512 } = req.query;
+    const { domain, maxWidth = 512, data = false } = req.query;
 
     // Check if domain is provided
     if (!domain) {
@@ -46,12 +49,23 @@ export const getLogos = async (req: Request<{}, {}, {}, GetLogosRequestQuery>, r
 
     // If we have a redirectable logo, redirect to the largest one
     if (redirect.length) {
-      return res.redirect(redirect.sort((a, b) => b.size.width - a.size.width)[0].original_url);
+      if (data) {
+        const remoteUrl = redirect.sort((a, b) => b.size.width - a.size.width)[0].original_url
+        return res.redirect(remoteUrl);
+      }
+      const remoteImgs = redirect.map(({ original_url: src, size }) => ({ src, size }));
+      return res.send(remoteImgs.sort((a, b) => b.size.width - a.size.width));
     }
 
     // If we have a local logo, return the largest one that fits within the maxWidth
     if (local.length) {
-      return res.json(local.sort((a, b) => b.size.width - a.size.width));
+      const localImg = local.sort((a, b) => b.size.width - a.size.width)[0]
+      if (data) {
+        return res.setHeader('Content-Type', localImg.file.fileType).send(localImg.file.data)
+      }
+
+      const localImgUrl = `${config.baseUrl}/logos/${domain}?data=true`
+      return res.send(localImgUrl);
     }
 
     // If we have no logos, return a 404
@@ -62,4 +76,4 @@ export const getLogos = async (req: Request<{}, {}, {}, GetLogosRequestQuery>, r
   }
 };
 
-export default getLogos;
+export default getLogo;

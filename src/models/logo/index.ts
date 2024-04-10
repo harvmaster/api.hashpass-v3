@@ -41,7 +41,7 @@ const schema = new Schema({
       type: Buffer,
       required: true
     },
-    type: {
+    fileType: {
       type: String,
       required: true
     }
