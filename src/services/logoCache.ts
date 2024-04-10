@@ -1,40 +1,76 @@
-import fs from 'fs'
+import axios from 'axios';
 
-interface LogoCacheEntry {
-  icons: IconEntry[];
+import Logo, { LogoProps } from '../models/logo'
+
+interface FaviconScraperResponse {
+  icons: {
+    src: string;
+    size: {
+      width: number;
+      height: number;
+    };
+  }[]
 }
 
-interface IconEntry {
-  url: string;
+interface DownloadedLogo {
+  src: string;
   size: {
     width: number;
     height: number;
   };
-  file: string;
-  redirect: boolean
+  data: ArrayBuffer;
 }
 
-class LogoCache {
-  private static instance?: LogoCache 
-  private cache = new Map<string, LogoCacheEntry>();
+class LogoManager {
+  async getLogos(domain: string): Promise<LogoProps[]> {
+    const logos = await Logo.find({ domain: domain })
+    if (!logos.length) {
+      return this.downloadLogos(domain)
+    }
 
-  constructor () {
-    
+    return logos.map(logo => logo.toJSONData())
   }
 
-  async init () {
-    console.log('Starting Logo Cache')
-    // Load cache from disk
-    // const cache = fs.readFileSync('cache.json', 'utf8');
-    // this.cache = new Map(JSON.parse(cache));
-    const iconFiles = await fs.promises.readdir('src/public/icons')
-    const iconCache = new Map<string, string>()
-    console.log(iconFiles)
+  async downloadLogos (domain: string): Promise<LogoProps[]> {
+    const { data } = await axios.get<FaviconScraperResponse>(`https://api.faviconscraper.mc.hzuccon.com/icon?url=${domain}`)
+
+    const imagePromises = data.icons.map(async (icon): Promise<DownloadedLogo> => {
+      const { data: imageRes } = await axios.get(icon.src, { responseType: 'arraybuffer' })
+      return { ...icon, data: imageRes.data } as DownloadedLogo
+    })
+
+    const images = await Promise.all(imagePromises)
+    const savedImages = await Promise.all(images.map(image => this.saveLogo(domain, image)))
+
+    return savedImages
   }
 
-  has
+  async saveLogo (domain: string, logo: DownloadedLogo): Promise<LogoProps> {
+    const newLogo = new Logo({
+      domain,
+      original_url: logo.src,
+      size: logo.size,
+      redirect: true,
+      file: {
+        data: Buffer.from(logo.data),
+        type: 'image/png'
+      }
+    })
+
+    await newLogo.save()
+    return newLogo.toJSONData()
+  }
+
+  // async batchUpdateLogos () {
+  //   setInterval(async () => {
+  //     let logos = await Logo.find({})
+  //     logos = logos.filter(logo => logo.lastUpdated > 1000*60*60*24)
+  //     logos.forEach(updateLogo)
+  //   })
+  // }
+
 }
 
-const logoCache = new LogoCache()
+const logoManager = new LogoManager()
 
-export default logoCache
+export default logoManager
