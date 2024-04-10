@@ -50,7 +50,7 @@ const serviceSchema = new mongoose.Schema<ServiceModel, IServiceModel>({
   },
   encoding: {
     type: String,
-    default: 'hp3',
+    default: 'base58',
   },
   stats: {
     timesUsed: {
