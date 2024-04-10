@@ -7,7 +7,6 @@ import routes from './routes';
 
 import mongoose from './services/mongoose'
 import Socket from './services/socket'
-import logoCache from './services/logoCache';
 
 import config from '../config'
 
@@ -55,14 +54,6 @@ export const startServer = async () => {
     console.log('Starting Socket.io server')
     Socket.startServer(server)
     console.log('Socket.io server started')
-  } catch (err) {
-    console.error(err.message)
-  }
-
-
-  // Start the logo cache
-  try {
-    await logoCache.init()
   } catch (err) {
     console.error(err.message)
   }
