@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-import Logo, { LogoProps } from '../models/logo'
+import Logo, { LogoProps } from '../models/logo';
 
+/**
+ * An interface for the response from the favicon scraper API.
+ */
 interface FaviconScraperResponse {
   icons: {
     src: string;
@@ -12,6 +15,9 @@ interface FaviconScraperResponse {
   }[]
 }
 
+/**
+ * An interface for a downloaded logo.
+ */
 interface DownloadedLogo {
   src: string;
   size: {
@@ -21,57 +27,112 @@ interface DownloadedLogo {
   data: ArrayBuffer;
 }
 
+/**
+ * A class for managing logos.
+ */
 class LogoManager {
+  /**
+   * Gets logos for a given domain.
+   * @param domain The domain to get logos for.
+   * @returns A promise that resolves to an array of logo JSON data.
+   */
   async getLogos(domain: string): Promise<LogoProps[]> {
-    const logos = await Logo.find({ domain: domain, archived: false })
-    if (!logos.length) {
-      return this.downloadLogos(domain)
-    }
+    try {
+      const logos = await Logo.find({ domain: domain, archived: false })
+      if (!logos.length) {
+        return this.downloadLogos(domain)
+      }
 
-    return logos.map(logo => logo.toJSONData())
+      return logos.map(logo => logo.toJSONData())
+    } catch (err) {
+      // Handle any errors that occur during the database query.
+      console.error(err);
+      throw err;
+    }
   }
 
-  async downloadLogos (domain: string): Promise<LogoProps[]> {
+  /**
+   * Downloads logos for a given domain.
+   * @param domain The domain to download logos for.
+   * @returns A promise that resolves to an array of logo JSON data.
+   */
+  async downloadLogos(domain: string): Promise<LogoProps[]> {
     const { data } = await axios.get<FaviconScraperResponse>(`https://api.faviconscraper.mc.hzuccon.com/icon?url=${domain}`)
 
-    const imagePromises = data.icons.map(async (icon): Promise<DownloadedLogo> => {
-      const { data: imageRes } = await axios.get(icon.src, { responseType: 'arraybuffer' })
-      return { ...icon, data: imageRes.data } as DownloadedLogo
-    })
+    /**
+     * Downloads an image from a given URL and returns its data.
+     * @param url The URL to download the image from.
+     * @returns A promise that resolves to an array buffer containing the image data.
+     */
+    const downloadImage = async (url: string): Promise<ArrayBuffer> => {
+      const { data } = await axios.get(url, { responseType: 'arraybuffer' })
+      return data;
+    }
 
-    const images = await Promise.all(imagePromises)
-    const savedImages = await Promise.all(images.map(image => this.saveLogo(domain, image)))
+    /**
+     * Downloads multiple images in parallel and returns their data.
+     * @param urls An array of image URLs to download.
+     * @returns A promise that resolves to an array of objects containing the image data.
+     */
+    const downloadImages = async (urls: string[]): Promise<DownloadedLogo[]> => {
+      return Promise.all(urls.map(async (url): Promise<DownloadedLogo> => {
+        const data = await downloadImage(url);
+        return { src: url, size: { width: 0, height: 0 }, data };
+      }));
+    }
 
-    return savedImages
+    const imageUrls = data.icons.map(icon => icon.src);
+    const images = await downloadImages(imageUrls);
+
+    const savedImages = await Promise.all(images.map(image => this.saveLogo(domain, image)));
+
+    return savedImages;
   }
 
-  async saveLogo (domain: string, logo: DownloadedLogo): Promise<LogoProps> {
-    const newLogo = new Logo({
-      domain,
-      original_url: logo.src,
-      size: logo.size,
-      redirect: true,
-      file: {
-        data: Buffer.from(logo.data),
-        type: 'image/png'
-      },
-      archived: false
-    })
+  /**
+   * Saves a logo to the database.
+   * @param domain The domain of the logo.
+   * @param logo The logo data.
+   * @returns A promise that resolves to the logo JSON data.
+   */
+  async saveLogo(domain: string, logo: DownloadedLogo): Promise<LogoProps> {
+    try {
+      const newLogo = new Logo({
+        domain,
+        original_url: logo.src,
+        size: logo.size,
+        redirect: true,
+        file: {
+          data: Buffer.from(logo.data),
+          type: 'image/png'
+        },
+        archived: false
+      })
 
-    await newLogo.save()
-    return newLogo.toJSONData()
+      const savedLogo = await newLogo.save();
+      return savedLogo.toJSONData();
+    } catch (err) {
+      // Handle any errors that occur during the save operation.
+      console.error(err);
+      throw err;
+    }
   }
 
-  // async batchUpdateLogos () {
+  /**
+   * Updates logos in batches.
+   */
+  // async batchUpdateLogos() {
   //   setInterval(async () => {
-  //     let logos = await Logo.find({})
-  //     logos = logos.filter(logo => logo.lastUpdated > 1000*60*60*24)
-  //     logos.forEach(updateLogo)
-  //   })
+  //     let logos = await Logo.find({});
+  //     logos = logos.filter(logo => logo.lastUpdated > 1000*60*60*24);
+  //     logos.forEach(updateLogo);
+  //   }, 1000 * 60 * 60); // Update every hour.
   // }
-
 }
 
-const logoManager = new LogoManager()
+/**
+ * The logo manager instance.
+ */
+const logoManager = new LogoManager();
 
-export default logoManager
+export default logoManager;

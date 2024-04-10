@@ -10,7 +10,10 @@ interface getLogosRequestQuery {
 
 export const getLogos = async (req: Request<{}, {}, {}, getLogosRequestQuery>, res: Response) => {
   try {
+    // Get domain and max_size from query
     const { domain, max_size = 512 } = req.query
+
+    // Check if domain is provided
     if (!domain) {
       return res.status(400).json({ error: 'Domain is required' })
     }
