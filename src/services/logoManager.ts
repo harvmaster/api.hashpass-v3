@@ -23,7 +23,7 @@ interface DownloadedLogo {
 
 class LogoManager {
   async getLogos(domain: string): Promise<LogoProps[]> {
-    const logos = await Logo.find({ domain: domain })
+    const logos = await Logo.find({ domain: domain, archived: false })
     if (!logos.length) {
       return this.downloadLogos(domain)
     }
@@ -54,7 +54,8 @@ class LogoManager {
       file: {
         data: Buffer.from(logo.data),
         type: 'image/png'
-      }
+      },
+      archived: false
     })
 
     await newLogo.save()

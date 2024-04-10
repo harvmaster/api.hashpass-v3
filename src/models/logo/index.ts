@@ -46,6 +46,11 @@ const schema = new Schema({
       required: true
     }
   },
+  archived: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   create_date: {
     type: Date,
     required: false,
@@ -60,11 +65,12 @@ schema.methods.toJSONData = function (): LogoProps {
     size,
     redirect,
     file,
+    archived,
     create_date, 
     id
   } = this.toObject() as SchemaProps;
 
-  return  { domain, original_url, size, redirect, file, create_date, id }
+  return  { domain, original_url, size, redirect, file, archived, create_date, id }
 }
 
 const Logo = mongoose.model<SchemaProps, SchemaModel>('logo', schema)
