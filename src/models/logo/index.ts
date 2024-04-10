@@ -4,7 +4,7 @@ type SchemaInput = InferSchemaType<typeof schema>
 type SchemaProps = InferSchemaType<typeof schema> & { id: string, create_date: Date }
 
 type SchemaMethods = {
-  toJSONData(): logoProps
+  toJSONData(): LogoProps
 }
 type SchemaStatics = {
   // createlogo(logo: SchemaProps): Promise<SchemaDocument<SchemaMethods>>
@@ -53,7 +53,7 @@ const schema = new Schema({
   }
 })
 
-schema.methods.toJSONData = function (): logoProps {
+schema.methods.toJSONData = function (): LogoProps {
   const { 
     domain,
     original_url,
@@ -67,12 +67,12 @@ schema.methods.toJSONData = function (): logoProps {
   return  { domain, original_url, size, redirect, file, create_date, id }
 }
 
-const logo = mongoose.model<SchemaProps, SchemaModel>('logo', schema)
+const Logo = mongoose.model<SchemaProps, SchemaModel>('logo', schema)
 
-export type logoInput = SchemaInput
-export type logoProps = SchemaProps
-export type logoMethods = SchemaMethods
-export type logoStatics = SchemaStatics
-export type logoDocument = HydratedDocument<SchemaProps, SchemaMethods>
+export type LogoInput = SchemaInput
+export type LogoProps = SchemaProps
+export type LogoMethods = SchemaMethods
+export type LogoStatics = SchemaStatics
+export type LogoDocument = HydratedDocument<SchemaProps, SchemaMethods>
 
-export default logo;
+export default Logo;
