@@ -20,7 +20,11 @@ interface GetLogosRequestQuery {
 export const getLogo = async (req: Request<any, any, any, GetLogosRequestQuery>, res: Response) => {
   try {
     // Get domain and maxWidth from query
-    const { domain, maxWidth = 512, data = false } = req.query;
+    const { domain, data = false } = req.query;
+
+    // Cap the maxWidth at 1024
+    let { maxWidth } = req.query;
+    if (maxWidth && maxWidth > 1024) maxWidth = 1024; 
 
     // Check if domain is provided
     if (!domain) {

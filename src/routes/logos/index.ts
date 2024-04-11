@@ -9,7 +9,7 @@ const router = Express.Router()
 
 // router.get('/', validateAccessToken, getLogo)
 router.get('/domain', validateAccessToken, getDomainRecommendation)
-router.get('/', validateAccessToken, getLogo)
+router.get('/', getLogo)
 // router.put('/', validateAccessToken, updateService)
 // router.delete('/', validateAccessToken, deleteService)
 
