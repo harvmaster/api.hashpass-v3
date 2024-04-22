@@ -69,7 +69,7 @@ export const getLogo = async (req: Request<any, any, any, GetLogosRequestQuery>,
       }
 
       const localImgUrl = `${config.baseUrl}/logos/${domain}?data=true`
-      return res.send(localImgUrl);
+      return res.send([ localImgUrl ]);
     }
 
     // If we have no logos, return a 404

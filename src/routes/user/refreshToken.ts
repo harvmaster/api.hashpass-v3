@@ -5,7 +5,6 @@ import RefreshToken from '../../models/refreshToken'
 export const refreshAccessToken = async (req: Request, res: Response) => {
   try {
     const { refresh_token } = req.body
-
     if (!refresh_token) {
       return res.status(400).json({ message: 'Missing refresh token' })
     }

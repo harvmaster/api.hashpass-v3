@@ -8,7 +8,7 @@ export const validateAccessToken = (req: Request, res: Response, next: NextFunct
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
-  if (!token) return res.sendStatus(401);
+  if (!token) return res.status(401).json({ error: 'Access token is required' });
 
   jwt.verify(token, jwt_secret, (err, user) => {
     if (err) return res.status(400).json({ error: 'Invalid token' });
